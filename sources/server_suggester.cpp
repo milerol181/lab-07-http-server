@@ -73,3 +73,4 @@ std::string server_suggester::suggest(const std::string &input) const {
     std::this_thread::sleep_for(std::chrono::minutes(minutes_time));
   }
 }
+

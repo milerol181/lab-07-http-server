@@ -1,7 +1,7 @@
 // Copyright 2020 Your Name <your_email>
 
-#ifndef INCLUDE_HEADER_HPP_
-#define INCLUDE_HEADER_HPP_
+#ifndef INCLUDE_SERVER_SUGGESTER_HPP_
+#define INCLUDE_SERVER_SUGGESTER_HPP_
 #include "nlohmann/json.hpp"
 #include <iostream>
 #include <thread>
@@ -24,4 +24,4 @@ class server_suggester {
 };
 
 [[noreturn]] void update_collection(const std::string &filename_json);
-#endif // INCLUDE_HEADER_HPP_
+#endif // INCLUDE_SERVER_SUGGESTER_HPP_
