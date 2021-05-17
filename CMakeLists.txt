@@ -18,7 +18,6 @@ include("cmake/HunterGate.cmake")
 HunterGate(
   URL "https://github.com/cpp-pm/hunter/archive/v0.23.278.tar.gz"
   SHA1 "35fa55bc1dfcf9f4d7264f8bb26cd1759ce1ae07"
-  LOCAL
 )
 
 # TODO: rename project and delete this comment
@@ -27,12 +26,19 @@ string(APPEND CMAKE_CXX_FLAGS " -pedantic -Werror -Wall -Wextra")
 string(APPEND CMAKE_CXX_FLAGS " -Wno-unused-command-line-argument")
 string(APPEND CMAKE_CXX_FLAGS " -Wshadow -Wnon-virtual-dtor")
 
+hunter_add_package(Beast)
+find_package(Beast CONFIG REQUIRED)
+hunter_add_package(Boost COMPONENTS  thread filesystem)
+find_package(Boost CONFIG REQUIRED thread filesystem)
+find_package(Threads)
 hunter_add_package(GTest)
 find_package(GTest CONFIG REQUIRED)
+hunter_add_package(nlohmann_json)
+find_package(nlohmann_json CONFIG REQUIRED)
 
 add_library(${PROJECT_NAME} STATIC
   # enum your files and delete this comment
-  ${CMAKE_CURRENT_SOURCE_DIR}/sources/source.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/sources/server_suggester.cpp
 )
 
 add_executable(demo
@@ -44,7 +50,19 @@ target_include_directories(${PROJECT_NAME} PUBLIC
   "$<INSTALL_INTERFACE:include>"
 )
 
-target_link_libraries(demo ${PROJECT_NAME})
+target_link_libraries(demo ${PROJECT_NAME}
+        Beast::Beast
+        Boost::filesystem
+        Boost::thread
+        GTest::gmock_main
+        nlohmann_json::nlohmann_json)
+
+target_link_libraries(${PROJECT_NAME}
+        Beast::Beast
+        Boost::filesystem
+        Boost::thread
+        GTest::gmock_main
+        nlohmann_json::nlohmann_json)
 
 if(BUILD_TESTS)
   add_executable(tests
